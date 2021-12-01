@@ -6,12 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[bin]]
-name = "a01a"
-src = "src/bin/a01a.rs"
+name = "day1part1"
+src = "src/bin/day1/day1part1.rs"
 
 [[bin]]
-name = "a01b"
-src = "src/bin/a01b.rs"
+name = "day1part2"
+src = "src/bin/day1/day1part2.rs"
 
 
 
