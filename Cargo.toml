@@ -7,11 +7,11 @@ edition = "2021"
 
 [[bin]]
 name = "day1part1"
-src = "src/bin/day1/day1part1.rs"
+src = "src/bin/day1part1.rs"
 
 [[bin]]
 name = "day1part2"
-src = "src/bin/day1/day1part2.rs"
+src = "src/bin/day1part2.rs"
 
 
 
