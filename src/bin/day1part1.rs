@@ -1,74 +1,23 @@
-use std::env;
-use std::fs;
-use std::io::{self, BufRead};
-use std::path::Path;
+use std::{env, path::PathBuf};
 
-fn parse_config(args: &[String]) -> &str {
-    let filename = &args[1];
-    &filename
-}
-
-fn read_file<P>(filename: P) -> io::Result<io::Lines<io::BufReader<fs::File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = fs::File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
-
-enum Depth {
-    Increased,
-    Decreased,
-    Unchanged,
-}
-
-impl Depth {
-    fn compare_current_depth(current_depth: &u16, previous_depth: &u16) -> Depth {
-        if current_depth > previous_depth {
-            Depth::Increased
-        } else if current_depth < previous_depth {
-            Depth::Decreased
-        } else {
-            Depth::Unchanged
-        }
-    }
+fn parse_config(args: &Vec<String>) -> PathBuf {
+    let filename: PathBuf = args[1].as_str().try_into().unwrap();
+    filename
 }
 
 fn main() {
+    use aoc2021::day1;
+    use aoc2021::utils;
+
     let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        panic!("Requires an input file as a parameter!")
+    }
+
     let filename = parse_config(&args);
 
-    let mut increased_values: u16 = 0;
-
-    if let Ok(lines) = read_file(filename) {
-        let mut previous_value: Option<u16> = None;
-        let mut current_value: Option<u16> = None;
-        for line in lines {
-            if let Ok(line) = line {
-                current_value = Some(line.parse().unwrap());
-                match previous_value {
-                    Some(previous_value) => {
-                        let depth_state =
-                            Depth::compare_current_depth(&current_value.unwrap(), &previous_value);
-                        match depth_state {
-                            Depth::Increased => {
-                                increased_values += 1;
-                                println!("{} (increased)", current_value.unwrap())
-                            }
-                            Depth::Decreased => println!("{} (decreased)", current_value.unwrap()),
-                            Depth::Unchanged => println!("{} (unchanged)", current_value.unwrap()),
-                        }
-                    }
-                    None => println!("{} (initial)", current_value.unwrap()),
-                }
-            }
-            previous_value = current_value;
-        }
-    }
-    println!(
-        "The total number of increased values is: {}",
-        increased_values
-    );
+    let lines = utils::read_file(filename);
+    println!("The value increase {} times", day1::part1(&lines));
 }
 
 // --- Day 1: Sonar Sweep ---

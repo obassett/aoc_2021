@@ -14,5 +14,9 @@ name = "day1part2"
 src = "src/bin/day1part2.rs"
 
 
+[lib]
+name = "aoc2021"
+path = "src/aoc2021.rs"
+
 
 [dependencies]

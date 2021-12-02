@@ -1,90 +1,31 @@
-use std::env;
-use std::fs;
-use std::io::{self, BufRead};
-use std::path::Path;
+use std::{env, path::PathBuf};
 
-fn parse_config(args: &[String]) -> &str {
-    let filename = &args[1];
-    &filename
-}
+// struct CliArgs {
+//     file: std::path::PathBuf
+// }
 
-fn read_file<P>(filename: P) -> io::Result<io::Lines<io::BufReader<fs::File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = fs::File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
-
-enum Depth {
-    Increased,
-    Decreased,
-    Unchanged,
-}
-
-impl Depth {
-    fn compare_current_depth(current_depth: &u16, previous_depth: &u16) -> Depth {
-        if current_depth > previous_depth {
-            Depth::Increased
-        } else if current_depth < previous_depth {
-            Depth::Decreased
-        } else {
-            Depth::Unchanged
-        }
-    }
+fn parse_config(args: &Vec<String>) -> PathBuf {
+    let filename: PathBuf = args[1].as_str().try_into().unwrap();
+    filename
 }
 
 fn main() {
     let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        panic!("Requires an input file as a parameter!")
+    }
+
     let filename = parse_config(&args);
 
-    let mut increased_values: u16 = 0;
+    use aoc2021::day1;
+    use aoc2021::utils;
 
-    if let Ok(lines) = read_file(filename) {
-        let mut window: Vec<u16> = Vec::new();
-        let mut previous_total: Option<u16> = None;
-        let mut current_total: Option<u16> = None;
+    let input = utils::read_file(filename);
 
-        for line in lines {
-            if let Ok(line) = line {
-                window.insert(0, line.parse().unwrap());
-                match window.len() {
-                    4 => {
-                        window.pop();
-                        current_total = Some(window.iter().sum());
-                    }
-                    3 => current_total = Some(window.iter().sum()),
-                    5.. => unreachable!(),
-                    current_len => {
-                        println!("Only have {} values in the window", current_len);
-                    }
-                }
-                match previous_total {
-                    Some(previous_total) => {
-                        match Depth::compare_current_depth(&current_total.unwrap(), &previous_total)
-                        {
-                            Depth::Increased => {
-                                increased_values += 1;
-                                println!("{} (increased)", current_total.unwrap())
-                            }
-                            Depth::Decreased => println!("{} (decreased)", current_total.unwrap()),
-                            Depth::Unchanged => println!("{} (unchanged)", current_total.unwrap()),
-                        }
-                    }
-                    None => {
-                        if current_total.is_some() {
-                            println!("{} (initial)", current_total.unwrap())
-                        }
-                    }
-                }
-                previous_total = current_total;
-            }
-        }
-    }
     println!(
         "The total number of increased values is: {}",
-        increased_values
-    );
+        day1::part2(&input)
+    )
 }
 
 // --- Part Two ---
