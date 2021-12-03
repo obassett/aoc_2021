@@ -5,18 +5,15 @@ edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[[bin]]
-name = "day1part1"
-src = "src/bin/day1part1.rs"
-
-[[bin]]
-name = "day1part2"
-src = "src/bin/day1part2.rs"
+# [[bin]]
+# name = "aoc2021"
+# src = "src/main.rs"
 
 
 [lib]
-name = "aoc2021"
+name = "lib_aoc2021"
 path = "src/aoc2021.rs"
 
 
 [dependencies]
+structopt = "0.3.25"
