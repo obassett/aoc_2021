@@ -83,6 +83,21 @@ fn execute_exercise(input: &str, day: u8, part: Option<u8>) {
                 println!("Invalid part");
             }
         },
+        6 => match part {
+            Some(1) => {
+                println!("Part 1: {}", lib_aoc2021::day6::part1(input));
+            }
+            Some(2) => {
+                println!("Part 2: {}", lib_aoc2021::day6::part2(input));
+            }
+            None => {
+                println!("Part 1: {}", lib_aoc2021::day6::part1(input));
+                println!("Part 2: {}", lib_aoc2021::day6::part2(input));
+            }
+            Some(_) => {
+                println!("Invalid part");
+            }
+        },
         _ => println!("Day not yet implemented or invalid"),
     }
 }
