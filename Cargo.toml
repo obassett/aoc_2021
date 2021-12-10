@@ -18,3 +18,4 @@ path = "src/aoc2021.rs"
 [dependencies]
 structopt = "0.3.25"
 ndarray = "0.15.4"
+thiserror = "1.0.0"

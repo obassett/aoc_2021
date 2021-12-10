@@ -2,7 +2,6 @@
 // Need to support args for data file, and day and part to run.
 // part should be optional and if not provided run both parts
 
-use std::path::PathBuf;
 use structopt::StructOpt;
 
 use lib_aoc2021;
@@ -64,6 +63,21 @@ fn execute_exercise(input: &str, day: u8, part: Option<u8>) {
             None => {
                 println!("Part 1: {}", lib_aoc2021::day4::part1(input).unwrap());
                 println!("Part 2: {}", lib_aoc2021::day4::part2(input).unwrap());
+            }
+            Some(_) => {
+                println!("Invalid part");
+            }
+        },
+        5 => match part {
+            Some(1) => {
+                println!("Part 1: {}", lib_aoc2021::day5::part1(input).unwrap());
+            }
+            Some(2) => {
+                println!("Part 2: {}", lib_aoc2021::day5::part2(input).unwrap());
+            }
+            None => {
+                println!("Part 1: {}", lib_aoc2021::day5::part1(input).unwrap());
+                println!("Part 2: {}", lib_aoc2021::day5::part2(input).unwrap());
             }
             Some(_) => {
                 println!("Invalid part");
